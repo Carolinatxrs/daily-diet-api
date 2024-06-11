@@ -2,6 +2,7 @@ import { FastifyInstance } from 'fastify'
 import z from 'zod'
 import { randomUUID } from 'node:crypto'
 import { knex } from '../database'
+import { checkSessionIdExists } from './middlewares/check-session-id-exists'
 
 export async function usersRoutes(app: FastifyInstance) {
   app.get('/', async () => {
@@ -10,17 +11,30 @@ export async function usersRoutes(app: FastifyInstance) {
     return { users }
   })
 
-  app.get('/:id', async (request) => {
-    const getUserParamsSchema = z.object({
-      id: z.string().uuid(),
-    })
+  app.get(
+    '/:id',
+    {
+      preHandler: [checkSessionIdExists],
+    },
+    async (request) => {
+      const getUserParamsSchema = z.object({
+        id: z.string().uuid(),
+      })
 
-    const { id } = getUserParamsSchema.parse(request.params)
+      const { id } = getUserParamsSchema.parse(request.params)
 
-    const user = await knex('users').where('id', id).first()
+      const { sessionId } = request.cookies
 
-    return { user }
-  })
+      const user = await knex('users')
+        .where({
+          id,
+          session_id: sessionId,
+        })
+        .first()
+
+      return { user }
+    },
+  )
 
   app.post('/', async (request, reply) => {
     const createUserBodySchema = z.object({
@@ -29,6 +43,16 @@ export async function usersRoutes(app: FastifyInstance) {
     })
 
     const { name, email } = createUserBodySchema.parse(request.body)
+
+    if (!name || !email) {
+      return reply.status(400).send({ error: 'Name and email are required' })
+    }
+
+    const userAlreadyExists = await knex('users').where({ email }).first()
+
+    if (userAlreadyExists) {
+      return reply.status(409).send({ error: 'User already exists' })
+    }
 
     let sessionId = request.cookies.sessionId
 
@@ -40,8 +64,6 @@ export async function usersRoutes(app: FastifyInstance) {
         maxAge: 60 * 60 * 24 * 7, // 7 days
       })
     }
-
-    console.log('sessionId', sessionId)
 
     await knex('users').insert({
       id: randomUUID(),

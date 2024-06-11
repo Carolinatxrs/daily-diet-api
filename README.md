@@ -16,7 +16,7 @@
 - Node.js;
 
 ##### Requisitos Funcionais:
-- [ ] Deve ser possível criar um usuário;
+- [x] Deve ser possível criar um usuário;
 - [ ] O usuário deve poder criar uma refeição;
 - [ ] O usuário deve poder listar todas as suas refeições;
 - [ ] O usuário deve poder visualizar uma refeição que ele criou;
