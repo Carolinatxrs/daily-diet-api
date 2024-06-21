@@ -14,6 +14,7 @@ export async function up(knex: Knex): Promise<void> {
       .inTable('users')
       .onDelete('CASCADE')
       .onUpdate('CASCADE')
+      .notNullable()
   })
 }
 

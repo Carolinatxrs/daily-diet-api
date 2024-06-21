@@ -44,10 +44,6 @@ export async function usersRoutes(app: FastifyInstance) {
 
     const { name, email } = createUserBodySchema.parse(request.body)
 
-    if (!name || !email) {
-      return reply.status(400).send({ error: 'Name and email are required' })
-    }
-
     const userAlreadyExists = await knex('users').where({ email }).first()
 
     if (userAlreadyExists) {
