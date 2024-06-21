@@ -5,11 +5,35 @@ import { randomUUID } from 'node:crypto'
 import { checkSessionIdExists } from './middlewares/check-session-id-exists'
 
 export async function mealsRoutes(app: FastifyInstance) {
-  app.get('/', async () => {
-    const meals = await knex('meals').select('*')
+  app.get('/', { preHandler: [checkSessionIdExists] }, async (request) => {
+    const meals = await knex('meals')
+      .where({ user_id: request.user?.id })
+      .select()
 
     return { meals }
   })
+
+  app.get(
+    '/:id',
+    { preHandler: [checkSessionIdExists] },
+    async (request, reply) => {
+      const getMealParamsSchema = z.object({
+        id: z.string().uuid(),
+      })
+
+      const { id } = getMealParamsSchema.parse(request.params)
+
+      const meals = await knex('meals')
+        .where({ id, user_id: request.user?.id })
+        .first()
+
+      if (!meals) {
+        return reply.status(400).send({ error: 'Meal not found' })
+      }
+
+      return { meals }
+    },
+  )
 
   app.post(
     '/',
@@ -66,7 +90,7 @@ export async function mealsRoutes(app: FastifyInstance) {
         return reply.status(400).send({ error: 'Meal not found' })
       }
 
-      await knex('meals').where({ id }).update({
+      await knex('meals').where({ id, user_id: request.user?.id }).update({
         name,
         description,
         is_on_diet: isOnDiet,
