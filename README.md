@@ -23,14 +23,14 @@
 - [x] O usuário deve poder listar todas as suas refeições;
 - [x] O usuário deve poder visualizar uma refeição que ele criou;
 - [x] O usuário deve poder editar uma refeição criada por ele;
-- [ ] O usuário deve poder deletar uma refeição que ele criou;
+- [x] O usuário deve poder deletar uma refeição que ele criou;
 - [ ] O usuário deve poder ver as métricas: o total de refeições registradas, total dentro da sua dieta, total fora da dieta e a melhor sequencia de refeições dentro da dieta.
 
 
 ##### Regras de negócios:
 - [x] Deve ser possível editar todos os dados de uma refeição;
 - [x] Deve ser possível identificarmos o usuário entre as requisições.
-- [ ] O usuário só pode visualizar, editar e apagar as refeições o qual ele criou.
+- [x] O usuário só pode visualizar, editar e apagar as refeições o qual ele criou.
 
 
 #### Rotas HTTP
