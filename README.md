@@ -10,11 +10,21 @@
 
 - Uma API para controle de dieta diária, a Daily Diet API. Sendo possível criar um usuário, ciar, visualizar, editar e remover uma refeição, visualizar todas as refeições de um usuário e suas métricas.
 
-
-#### Requisitos
-
-- Node.js;
-
+#### Setup
+- Clonar o repositório
+- Instalar dependências
+  ~~~
+  npm install
+  ~~~
+- Copiar o arquivo .env.example
+  ~~~
+  cp .env.example .env
+  ~~~
+- Executar a aplicação
+  ~~~
+  npm run dev
+  ~~~
+  
 ##### Requisitos Funcionais:
 - [x] Deve ser possível criar um usuário;
 - [x] Deve ser possível listar usuários;
@@ -34,6 +44,8 @@
 
 
 #### Rotas HTTP
+
+[![Run in Insomnia}](https://insomnia.rest/images/run.svg)](https://insomnia.rest/run/?label=daily-diet-api&uri=https%3A%2F%2Fgithub.com%2FCarolinatxrs%2Fdaily-diet-api%2Fblob%2Fmain%2Frequests.json)
 
 <br />
 <br />
