@@ -123,7 +123,7 @@ export async function mealsRoutes(app: FastifyInstance) {
 
       await knex('meals').where({ id, user_id: request.user?.id }).delete()
 
-      return reply.status(201).send()
+      return reply.status(204).send()
     },
   )
 
@@ -162,7 +162,7 @@ export async function mealsRoutes(app: FastifyInstance) {
         }
       })
 
-      reply.status(201).send({
+      reply.status(200).send({
         totalMeals,
         totalMealsOnDiet,
         totalMealsOffDiet,
