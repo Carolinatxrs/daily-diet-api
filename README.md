@@ -8,7 +8,7 @@
 
 ### Projeto
 
-- Uma API para controle de dieta diária, a Daily Diet API. Sendo possível criar um usuário, ciar, visualizar, editar e remover uma refeição, visualizar todas as refeições de um usuário e suas métricas.
+- Uma API para controle de dieta diária, a Daily Diet API. Sendo possível criar um usuário, visualizar, editar e remover uma refeição, visualizar todas as refeições de um usuário e suas métricas.
 
 #### Setup
 - Clonar o repositório
